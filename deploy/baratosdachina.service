@@ -10,7 +10,7 @@ Group=www-data
 WorkingDirectory=/var/www/baratosdachina
 Environment=NODE_ENV=production
 Environment=HOST=127.0.0.1
-Environment=PORT=3000
+Environment=PORT=3100
 EnvironmentFile=/etc/baratosdachina.env
 ExecStart=/usr/bin/node server.js
 Restart=on-failure
