@@ -1,19 +1,37 @@
-# Fly Trap — landing page
+# Fly Trap — loja com checkout Pix PaySi
 
-Página estática de venda, servida em `/flytrap` (os caminhos são absolutos, então ela precisa ficar nessa pasta na raiz do site).
+Landing page da Fly Trap com checkout Pix direto. O navegador envia os dados do pedido para funções serverless em `api/`; somente o servidor se comunica com a PaySi.
 
-## Arquivos
+## Segurança
 
-- `index.html` — conteúdo e estrutura
-- `styles.css` — visual e responsividade (mobile-first)
-- `script.js` — botões de compra, formulário e FAQ
-- `assets/` — imagens em WebP geradas a partir de `fly-trap-hero.png` (a PNG original fica só como fonte; a página não a carrega)
+- A chave PaySi nunca fica no HTML ou JavaScript público.
+- O preço vem das ofertas publicadas na PaySi, não do navegador.
+- Cada tentativa usa uma chave de idempotência para evitar cobrança duplicada.
+- O backend valida kit, CPF, contato e endereço antes de criar o pagamento.
 
-## Antes de anunciar
+## Catálogo PaySi
 
-1. **Preços** — os valores dos kits são exemplos. Ajuste no `index.html` (hero, cards dos kits e barra fixa do celular).
-2. **Checkout** — no topo de `script.js`, cole o link de checkout de cada kit em `CONFIG.checkout`. Com o link preenchido, o botão leva direto ao pagamento.
-3. **WhatsApp** — sem checkout, o botão abre um formulário (nome + WhatsApp). Preencha `CONFIG.whatsapp` para que o envio abra uma conversa com os dados do pedido. Sem nenhum dos dois, o lead fica salvo apenas no `localStorage` do navegador.
-4. **Depoimentos** — os três depoimentos são ilustrativos. Troque por avaliações reais de clientes ou remova a seção.
-5. **Promessas** — "frete grátis", "garantia de 7 dias", "envio em até 2 dias úteis" e "Pix, cartão ou boleto" precisam refletir sua operação real.
-6. **Instruções de uso** — confira o passo a passo e as advertências com a embalagem do produto.
+| Kit | Valor | Slug da oferta |
+| --- | ---: | --- |
+| Essencial — 1 unidade | R$ 59,90 | `fly-trap-fedbaaa9` |
+| Família — 3 unidades | R$ 129,90 | `fly-trap-e079fc96` |
+| Pro — 5 unidades | R$ 189,90 | `fly-trap-9652aa56` |
+
+As ofertas usam Pix, garantia de 7 dias e liquidação D32. Os valores precisam permanecer iguais aos exibidos em `index.html`.
+
+## Publicação na Vercel
+
+1. Importe este repositório na Vercel.
+2. Em **Settings → Environment Variables**, crie `PAYSI_API_KEY` com a chave restrita a `payments_read` e `payments_write`.
+3. Faça o deploy.
+4. Teste uma compra real de baixo risco e confirme o status no painel PaySi.
+
+Use `.env.example` apenas como referência. Nunca faça commit do arquivo `.env` nem da chave real.
+
+## Arquivos principais
+
+- `index.html`, `styles.css` e `script.js` — loja e checkout no navegador.
+- `api/create-payment.js` — cria a cobrança Pix na PaySi.
+- `api/payment-status.js` — consulta o pagamento enquanto o checkout está aberto.
+- `api/_paysi.js` — configuração server-side e mapeamento seguro dos kits.
+- `termos.html` e `privacidade.html` — textos básicos que devem receber os dados comerciais da loja antes das vendas.

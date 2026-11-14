@@ -42,6 +42,10 @@ button { font: inherit; cursor: pointer; }
 ul { margin: 0; padding: 0; list-style: none; }
 h1, h2, h3 { margin: 0; line-height: 1.15; letter-spacing: -0.02em; font-weight: 800; }
 p { margin: 0; }
+.legal h1 { margin: 18px 0 8px; }
+.legal h2 { margin: 28px 0 8px; font-size: 1.25rem; }
+.legal p { color: var(--ink-soft); }
+.legal > a { color: var(--green-700); font-weight: 700; }
 h2 { font-size: clamp(1.6rem, 1.2rem + 2vw, 2.4rem); }
 h3 { font-size: 1.15rem; font-weight: 700; }
 h1 em, h2 em { font-style: normal; color: var(--green-700); }
@@ -289,7 +293,8 @@ details p { padding: 0 0 16px; color: var(--ink-soft); font-size: 0.95rem; }
 
 /* ---------- Dialog ---------- */
 dialog {
-  border: 0; border-radius: 20px; padding: 28px 24px; width: min(92vw, 440px);
+  border: 0; border-radius: 20px; padding: 28px 24px; width: min(94vw, 620px);
+  max-height: 92vh; overflow-y: auto;
   box-shadow: 0 30px 80px rgba(0,0,0,0.3);
 }
 dialog::backdrop { background: rgba(10, 30, 18, 0.6); backdrop-filter: blur(3px); }
@@ -302,6 +307,8 @@ dialog h2 { font-size: 1.5rem; }
 .dialog-close svg { width: 16px; height: 16px; }
 .selected-kit { margin-top: 6px; font-weight: 700; color: var(--green-700); }
 #lead-form { margin-top: 18px; display: grid; gap: 14px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-grid .full { grid-column: 1 / -1; }
 #lead-form label { display: grid; gap: 6px; font-size: 0.85rem; font-weight: 600; }
 #lead-form input {
   font: inherit; padding: 13px 14px; border: 1.5px solid var(--line); border-radius: 12px; width: 100%;
@@ -309,8 +316,27 @@ dialog h2 { font-size: 1.5rem; }
 #lead-form input:focus { outline: 2px solid var(--green-600); outline-offset: 1px; border-color: transparent; }
 #lead-form input.invalid { border-color: var(--red); }
 #lead-form small { color: var(--ink-soft); font-size: 0.78rem; text-align: center; }
-.success { margin-top: 18px; text-align: center; }
-.success b { display: block; font-size: 1.1rem; margin-bottom: 6px; color: var(--green-700); }
+.terms { grid-template-columns: auto 1fr; align-items: start; font-weight: 400 !important; }
+.terms input { width: 18px !important; height: 18px; margin-top: 2px; }
+.terms a { color: var(--green-700); text-decoration: underline; }
+.form-error { padding: 10px 12px; border-radius: 10px; background: #fff0f0; color: #9d2424; font-size: 0.85rem; }
+.submit-payment:disabled { opacity: 0.65; cursor: wait; }
+.pix-result { margin-top: 18px; text-align: center; }
+.pix-result > b { display: block; font-size: 1.15rem; margin-bottom: 6px; color: var(--green-700); }
+.pix-result > p { color: var(--ink-soft); }
+#pix-qrcode { min-height: 220px; margin: 18px auto; display: grid; place-items: center; }
+#pix-qrcode img, #pix-qrcode canvas { padding: 8px; border: 1px solid var(--line); border-radius: 10px; }
+.pix-result label { display: grid; gap: 6px; text-align: left; font-size: 0.8rem; font-weight: 600; }
+#pix-code { width: 100%; min-height: 86px; resize: none; padding: 10px; border: 1px solid var(--line); border-radius: 10px; }
+.pix-result .btn { margin-top: 12px; }
+.payment-status { margin-top: 14px; font-weight: 700; color: var(--ink) !important; }
+.payment-status.paid { color: var(--green-700) !important; }
+.pix-expiration { display: block; margin-top: 5px; color: var(--ink-soft); }
+
+@media (max-width: 480px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .form-grid .full { grid-column: auto; }
+}
 
 /* ============================================================
    Tablet e desktop
