@@ -74,7 +74,7 @@ function showError(message) {
 
 async function checkPayment(paymentId) {
   try {
-    const response = await fetch(`/api/payment-status?id=${encodeURIComponent(paymentId)}`, { cache: 'no-store' });
+    const response = await fetch(`api/payment-status?id=${encodeURIComponent(paymentId)}`, { cache: 'no-store' });
     if (!response.ok) return;
     const data = await response.json();
     const status = dialog.querySelector('.payment-status');
@@ -110,7 +110,7 @@ form.addEventListener('submit', async (event) => {
   };
 
   try {
-    const response = await fetch('/api/create-payment', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    const response = await fetch('api/create-payment', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
     const data = await response.json();
     if (!response.ok) throw new Error(data.message || 'Não foi possível gerar o Pix.');
     if (!data.paymentId || !data.pixQrCode) throw new Error('A PaySi não retornou um código Pix válido.');

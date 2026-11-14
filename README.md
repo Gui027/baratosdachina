@@ -1,6 +1,6 @@
 # Fly Trap — loja com checkout Pix PaySi
 
-Landing page da Fly Trap com checkout Pix direto. O navegador envia os dados do pedido para funções serverless em `api/`; somente o servidor se comunica com a PaySi.
+Landing page da Fly Trap com checkout Pix direto, publicada em `/flytrap/`. O navegador envia os dados do pedido para funções em `/flytrap/api/`; somente o servidor se comunica com a PaySi.
 
 ## Segurança
 
@@ -33,7 +33,8 @@ Use `.env.example` apenas como referência. Nunca faça commit do arquivo `.env`
 O arquivo `server.js` executa o site e as rotas de pagamento sem dependências externas. Os modelos de serviço e proxy ficam em `deploy/`:
 
 - `deploy/baratosdachina.service` — serviço systemd executado como `www-data`.
-- `deploy/nginx.conf` — proxy Nginx para `127.0.0.1:3000`.
+- `deploy/nginx.conf` — proxy Nginx para `127.0.0.1:3100`.
+- `deploy/nginx.production.conf` — virtual host HTTPS usado na VPS, mantendo `/` reservado para a futura loja.
 
 No servidor, a chave deve ficar em `/etc/baratosdachina.env`, com permissão `600`, no formato `PAYSI_API_KEY=...`.
 
