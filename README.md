@@ -13,7 +13,7 @@ Landing page da Fly Trap com checkout Pix direto. O navegador envia os dados do 
 
 | Kit | Valor | Slug da oferta |
 | --- | ---: | --- |
-| Essencial — 1 unidade | R$ 59,90 | `fly-trap-fedbaaa9` |
+| Essencial — 1 unidade | R$ 49,90 | `fly-trap-fedbaaa9` |
 | Família — 3 unidades | R$ 129,90 | `fly-trap-e079fc96` |
 | Pro — 5 unidades | R$ 189,90 | `fly-trap-9652aa56` |
 
