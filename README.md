@@ -28,6 +28,15 @@ As ofertas usam Pix, garantia de 7 dias e liquidação D32. Os valores precisam 
 
 Use `.env.example` apenas como referência. Nunca faça commit do arquivo `.env` nem da chave real.
 
+## Publicação em VPS Ubuntu
+
+O arquivo `server.js` executa o site e as rotas de pagamento sem dependências externas. Os modelos de serviço e proxy ficam em `deploy/`:
+
+- `deploy/baratosdachina.service` — serviço systemd executado como `www-data`.
+- `deploy/nginx.conf` — proxy Nginx para `127.0.0.1:3000`.
+
+No servidor, a chave deve ficar em `/etc/baratosdachina.env`, com permissão `600`, no formato `PAYSI_API_KEY=...`.
+
 ## Arquivos principais
 
 - `index.html`, `styles.css` e `script.js` — loja e checkout no navegador.
