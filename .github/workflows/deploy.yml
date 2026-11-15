@@ -1,0 +1,35 @@
+name: Deploy production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Configure SSH
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' '2.25.255.50 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF3dnP8dES50jd5qg7ohR0hBF/iwD2VrYMS5mQixWa5l' > ~/.ssh/known_hosts
+
+      - name: Deploy tested commit
+        run: |
+          ssh -i ~/.ssh/deploy_key \
+            -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            deploy@2.25.255.50 \
+            "sudo /usr/local/sbin/deploy-baratosdachina '${GITHUB_SHA}'"
