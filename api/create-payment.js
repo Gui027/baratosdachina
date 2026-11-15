@@ -16,6 +16,23 @@ function validCpf(value) {
   return true;
 }
 
+function validCardNumber(value) {
+  const number = digits(value);
+  if (number.length < 13 || number.length > 19 || /^(\d)\1+$/.test(number)) return false;
+  let sum = 0;
+  let doubleDigit = false;
+  for (let index = number.length - 1; index >= 0; index -= 1) {
+    let digit = Number(number[index]);
+    if (doubleDigit) {
+      digit *= 2;
+      if (digit > 9) digit -= 9;
+    }
+    sum += digit;
+    doubleDigit = !doubleDigit;
+  }
+  return sum % 10 === 0;
+}
+
 module.exports = async function handler(request, response) {
   if (request.method !== 'POST') {
     response.setHeader('Allow', 'POST');
@@ -27,6 +44,8 @@ module.exports = async function handler(request, response) {
   const buyer = body.buyer || {};
   const address = buyer.address || {};
   const checkoutId = text(body.checkoutId, 80);
+  const method = body.method === 'CARD' ? 'CARD' : 'PIX';
+  const card = body.card || {};
 
   if (!offerSlug) return sendJson(response, 400, { message: 'Kit inválido.' });
   if (!/^[a-zA-Z0-9-]{16,80}$/.test(checkoutId)) return sendJson(response, 400, { message: 'Identificador do pedido inválido.' });
@@ -43,9 +62,20 @@ module.exports = async function handler(request, response) {
   }
   if (body.termsAccepted !== true) return sendJson(response, 400, { message: 'É necessário aceitar os termos.' });
 
+  if (method === 'CARD') {
+    const month = Number(card.expiryMonth);
+    const year = Number(card.expiryYear);
+    const now = new Date();
+    const expirationIsValid = month >= 1 && month <= 12 && year >= now.getUTCFullYear() &&
+      (year > now.getUTCFullYear() || month >= now.getUTCMonth() + 1);
+    if (!validCardNumber(card.number) || text(card.holderName).length < 3 || !expirationIsValid || !/^\d{3,4}$/.test(digits(card.cvv))) {
+      return sendJson(response, 400, { message: 'Confira os dados do cartao e tente novamente.' });
+    }
+  }
+
   const payload = {
     offerSlug,
-    method: 'PIX',
+    method,
     buyer: {
       name: text(buyer.name),
       email: text(buyer.email).toLowerCase(),
@@ -69,6 +99,17 @@ module.exports = async function handler(request, response) {
     termsAcceptedAt: new Date().toISOString(),
   };
 
+  if (method === 'CARD') {
+    payload.card = {
+      number: digits(card.number),
+      holderName: text(card.holderName, 100).toUpperCase(),
+      expiryMonth: String(card.expiryMonth).padStart(2, '0'),
+      expiryYear: String(card.expiryYear),
+      cvv: digits(card.cvv),
+      installments: Math.min(Math.max(Number(card.installments) || 1, 1), 12),
+    };
+  }
+
   try {
     const result = await paysiRequest('/payments', {
       method: 'POST',
@@ -91,6 +132,7 @@ module.exports = async function handler(request, response) {
       status: result.data.payment?.status,
       pixQrCode: result.data.payment?.pixQrCode,
       expiresAt: result.data.payment?.expiresAt,
+      redirectUrl: result.data.payment?.redirectUrl || result.data.redirectUrl,
     });
   } catch (error) {
     const message = error.message === 'PAYSI_API_KEY_NOT_CONFIGURED'

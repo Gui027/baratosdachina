@@ -323,28 +323,72 @@
 
   <dialog id="lead-dialog" aria-labelledby="lead-title">
     <button class="dialog-close" type="button" aria-label="Fechar"><svg><use href="#i-x"/></svg></button>
-    <span class="kicker">Pagamento seguro via Pix</span>
-    <h2 id="lead-title">Finalize seu pedido</h2>
-    <p class="selected-kit" id="selected-kit"></p>
+    <div class="checkout-heading">
+      <span class="checkout-safe"><svg><use href="#i-lock"/></svg> Checkout seguro</span>
+      <h2 id="lead-title">Finalize seu pedido</h2>
+      <p class="selected-kit" id="selected-kit"></p>
+    </div>
+
+    <ol class="checkout-steps" aria-label="Etapas do checkout">
+      <li class="active" data-step-indicator="1"><span>1</span><small>Contato</small></li>
+      <li data-step-indicator="2"><span>2</span><small>Entrega</small></li>
+      <li data-step-indicator="3"><span>3</span><small>Pagamento</small></li>
+    </ol>
+
     <form id="lead-form" novalidate>
       <input type="hidden" name="kit" id="kit-input">
-      <div class="form-grid">
-        <label class="full">Nome completo<input name="nome" autocomplete="name" required minlength="3" placeholder="Seu nome completo"></label>
-        <label class="full">E-mail<input name="email" type="email" autocomplete="email" required placeholder="voce@exemplo.com"></label>
-        <label>CPF<input name="cpf" inputmode="numeric" autocomplete="off" required placeholder="000.000.000-00"></label>
-        <label>WhatsApp<input name="whatsapp" inputmode="tel" autocomplete="tel" required placeholder="(00) 00000-0000"></label>
-        <label>CEP<input name="cep" inputmode="numeric" autocomplete="postal-code" required placeholder="00000-000"></label>
-        <label>Estado<input name="estado" autocomplete="address-level1" required maxlength="2" placeholder="UF"></label>
-        <label class="full">Rua<input name="rua" autocomplete="address-line1" required placeholder="Rua ou avenida"></label>
-        <label>Número<input name="numero" autocomplete="address-line2" required placeholder="123"></label>
-        <label>Complemento<input name="complemento" autocomplete="address-line3" placeholder="Apto, bloco..."></label>
-        <label>Bairro<input name="bairro" autocomplete="address-level3" required placeholder="Bairro"></label>
-        <label>Cidade<input name="cidade" autocomplete="address-level2" required placeholder="Cidade"></label>
-      </div>
-      <label class="terms"><input name="termos" type="checkbox" required> <span>Li e aceito os <a href="termos.html" target="_blank" rel="noopener">termos de compra</a> e a <a href="privacidade.html" target="_blank" rel="noopener">política de privacidade</a>.</span></label>
-      <p class="form-error" role="alert" hidden></p>
-      <button class="btn btn-cta submit-payment" type="submit">GERAR PIX</button>
-      <small>O valor é definido pela oferta cadastrada na PaySi e não pode ser alterado pelo navegador.</small>
+
+      <section class="checkout-panel active" data-step="1" aria-labelledby="contact-title">
+        <div class="panel-title"><span>1</span><div><h3 id="contact-title">Seus dados</h3><p>Para enviarmos a confirmação do pedido.</p></div></div>
+        <div class="form-grid">
+          <label class="full">Nome completo<input name="nome" autocomplete="name" required minlength="3" placeholder="Como podemos te chamar?"></label>
+          <label class="full">E-mail<input name="email" type="email" autocomplete="email" required placeholder="voce@exemplo.com"></label>
+          <label class="full">WhatsApp<input name="whatsapp" inputmode="tel" autocomplete="tel" required minlength="14" placeholder="(00) 00000-0000"></label>
+        </div>
+        <button class="btn btn-cta next-step" type="button" data-next="2">CONTINUAR PARA ENTREGA <span aria-hidden="true">→</span></button>
+      </section>
+
+      <section class="checkout-panel" data-step="2" aria-labelledby="address-title" hidden>
+        <div class="panel-title"><span>2</span><div><h3 id="address-title">Endereço de entrega</h3><p>Preencha o CEP para completar automaticamente.</p></div></div>
+        <div class="form-grid">
+          <label>CEP<input name="cep" inputmode="numeric" autocomplete="postal-code" required minlength="9" placeholder="00000-000"></label>
+          <label>Estado<input name="estado" autocomplete="address-level1" required maxlength="2" placeholder="UF"></label>
+          <label class="full">Rua<input name="rua" autocomplete="address-line1" required placeholder="Rua ou avenida"></label>
+          <label>Número<input name="numero" autocomplete="address-line2" required placeholder="123"></label>
+          <label>Complemento <em>opcional</em><input name="complemento" autocomplete="address-line3" placeholder="Apto, bloco..."></label>
+          <label>Bairro<input name="bairro" autocomplete="address-level3" required placeholder="Bairro"></label>
+          <label>Cidade<input name="cidade" autocomplete="address-level2" required placeholder="Cidade"></label>
+        </div>
+        <div class="step-actions"><button class="back-step" type="button" data-back="1">← Voltar</button><button class="btn btn-cta next-step" type="button" data-next="3">IR PARA PAGAMENTO <span aria-hidden="true">→</span></button></div>
+      </section>
+
+      <section class="checkout-panel" data-step="3" aria-labelledby="payment-title" hidden>
+        <div class="panel-title"><span>3</span><div><h3 id="payment-title">Como você prefere pagar?</h3><p>Escolha uma opção para finalizar.</p></div></div>
+        <div class="payment-methods" role="radiogroup" aria-label="Método de pagamento">
+          <label class="payment-option selected"><input type="radio" name="metodo" value="PIX" checked><span class="payment-icon pix-mark">pix</span><span><b>Pix</b><small>Aprovação imediata</small></span><i>À vista</i></label>
+          <label class="payment-option"><input type="radio" name="metodo" value="CARD"><span class="payment-icon card-mark" aria-hidden="true"></span><span><b>Cartão de crédito</b><small>Pagamento seguro</small></span></label>
+        </div>
+
+        <div class="payment-fields pix-fields">
+          <div class="pix-info"><span class="pix-diamond" aria-hidden="true">◆</span><div><b>Pagamento rápido com Pix</b><p>Ao finalizar, você receberá o QR Code e o código copia e cola.</p></div></div>
+        </div>
+
+        <div class="payment-fields card-fields" hidden>
+          <div class="form-grid">
+            <label class="full">Número do cartão<input name="cartaoNumero" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" minlength="19"></label>
+            <label class="full">Nome impresso no cartão<input name="cartaoNome" autocomplete="cc-name" placeholder="NOME COMO NO CARTÃO"></label>
+            <label>Validade<input name="cartaoValidade" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA" minlength="5"></label>
+            <label>CVV<input name="cartaoCvv" inputmode="numeric" autocomplete="cc-csc" placeholder="123" minlength="3" maxlength="4"></label>
+            <label class="full">Parcelamento<select name="parcelas"><option value="1">1x sem juros</option><option value="2">2x</option><option value="3">3x</option></select></label>
+          </div>
+        </div>
+
+        <div class="form-grid tax-grid"><label class="full">CPF do titular<input name="cpf" inputmode="numeric" autocomplete="off" required minlength="14" placeholder="000.000.000-00"></label></div>
+        <label class="terms"><input name="termos" type="checkbox" required> <span>Li e aceito os <a href="termos.html" target="_blank" rel="noopener">termos de compra</a> e a <a href="privacidade.html" target="_blank" rel="noopener">política de privacidade</a>.</span></label>
+        <p class="form-error" role="alert" hidden></p>
+        <div class="step-actions"><button class="back-step" type="button" data-back="2">← Voltar</button><button class="btn btn-cta submit-payment" type="submit">GERAR PIX</button></div>
+        <small class="secure-note"><svg><use href="#i-lock"/></svg> Seus dados estão protegidos e criptografados.</small>
+      </section>
     </form>
     <div class="pix-result" hidden>
       <b>Pix gerado com sucesso</b>
@@ -354,6 +398,12 @@
       <button class="btn btn-cta" id="copy-pix" type="button">COPIAR CÓDIGO PIX</button>
       <p class="payment-status" aria-live="polite">Aguardando pagamento...</p>
       <small class="pix-expiration"></small>
+    </div>
+    <div class="card-result" hidden>
+      <span class="success-check"><svg><use href="#i-check"/></svg></span>
+      <b>Pedido recebido!</b>
+      <p>Seu pagamento está sendo processado. Enviaremos a confirmação pelo WhatsApp e e-mail.</p>
+      <button class="btn btn-cta finish-checkout" type="button">CONTINUAR</button>
     </div>
   </dialog>
 

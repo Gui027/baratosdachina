@@ -1,6 +1,6 @@
-# Fly Trap — loja com checkout Pix PaySi
+# Fly Trap — loja com checkout Pix e cartão PaySi
 
-Landing page da Fly Trap com checkout Pix direto, publicada em `/flytrap/`. O navegador envia os dados do pedido para funções em `/flytrap/api/`; somente o servidor se comunica com a PaySi.
+Landing page da Fly Trap com checkout em três etapas, publicada em `/flytrap/`. O navegador envia os dados do pedido para funções em `/flytrap/api/`; somente o servidor se comunica com a PaySi.
 
 ## Segurança
 
@@ -17,7 +17,7 @@ Landing page da Fly Trap com checkout Pix direto, publicada em `/flytrap/`. O na
 | Família — 3 unidades | R$ 129,90 | `fly-trap-e079fc96` |
 | Pro — 5 unidades | R$ 189,90 | `fly-trap-9652aa56` |
 
-As ofertas usam Pix, garantia de 7 dias e liquidação D32. Os valores precisam permanecer iguais aos exibidos em `index.html`.
+As ofertas usam Pix, garantia de 7 dias e liquidação D32. Os valores precisam permanecer iguais aos exibidos em `index.html`. Para receber por cartão, confirme no painel da PaySi se as três ofertas estão habilitadas para o método `CARD` e faça uma transação de homologação antes de publicar.
 
 ## Publicação na Vercel
 
@@ -41,7 +41,7 @@ No servidor, a chave deve ficar em `/etc/baratosdachina.env`, com permissão `60
 ## Arquivos principais
 
 - `index.html`, `styles.css` e `script.js` — loja e checkout no navegador.
-- `api/create-payment.js` — cria a cobrança Pix na PaySi.
+- `api/create-payment.js` — valida e cria a cobrança Pix ou cartão na PaySi.
 - `api/payment-status.js` — consulta o pagamento enquanto o checkout está aberto.
 - `api/_paysi.js` — configuração server-side e mapeamento seguro dos kits.
 - `termos.html` e `privacidade.html` — textos básicos que devem receber os dados comerciais da loja antes das vendas.

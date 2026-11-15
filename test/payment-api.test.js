@@ -39,9 +39,36 @@ test('cria Pix usando slug e preço definidos no servidor', async () => {
     await handler({ method: 'POST', body: validBody, headers: { 'x-forwarded-for': '203.0.113.42' }, socket: {} }, response);
     assert.equal(response.statusCode, 201);
     assert.equal(sent.offerSlug, 'fly-trap-fedbaaa9');
+    assert.equal(sent.method, 'PIX');
     assert.equal(sent.amountCents, undefined);
     assert.equal(sent.customerIp, '203.0.113.42');
     assert.equal(response.body.pixQrCode, '00020126TESTE');
+  } finally {
+    global.fetch = originalFetch;
+  }
+});
+
+test('envia pagamento por cartao quando selecionado', async () => {
+  const originalFetch = global.fetch;
+  let sent;
+  global.fetch = async (_url, options) => {
+    sent = JSON.parse(options.body);
+    return { ok: true, status: 201, json: async () => ({ payment: { chargeId: '91c80000-0000-4000-8000-000000000002', status: 'PENDING' } }) };
+  };
+  try {
+    const response = responseRecorder();
+    await handler({
+      method: 'POST', headers: {}, socket: {},
+      body: {
+        ...validBody,
+        method: 'CARD',
+        card: { number: '4111111111111111', holderName: 'Cliente Teste', expiryMonth: '12', expiryYear: '2030', cvv: '123', installments: 3 },
+      },
+    }, response);
+    assert.equal(response.statusCode, 201);
+    assert.equal(sent.method, 'CARD');
+    assert.equal(sent.card.number, '4111111111111111');
+    assert.equal(sent.card.installments, 3);
   } finally {
     global.fetch = originalFetch;
   }
