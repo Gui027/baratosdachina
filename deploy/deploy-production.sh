@@ -36,7 +36,7 @@ cleanup() {
 trap cleanup EXIT
 
 git archive "$EXPECTED_COMMIT" | tar -x -C "$TEST_DIR"
-(cd "$TEST_DIR" && npm test)
+(cd "$TEST_DIR" && node --test)
 
 git merge --ff-only "$EXPECTED_COMMIT"
 systemctl restart "$SERVICE_NAME"
