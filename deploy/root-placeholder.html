@@ -3,40 +3,213 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#fff8ed">
-  <meta name="robots" content="noindex">
-  <title>Baratos da China | Em breve</title>
+  <meta name="theme-color" content="#ffffff">
+  <title>Baratos da China | Produtos úteis por preços que surpreendem</title>
+  <meta name="description" content="Descubra produtos úteis, novidades e ofertas da Baratos da China. Compra segura, envio rastreado e atendimento de verdade.">
   <style>
-    :root{--red:#f21d0b;--ink:#11100f;--cream:#fff8ed;--muted:#746d64}
+    :root{--red:#f12612;--red-dark:#c91c0c;--ink:#11100f;--muted:#706a64;--cream:#fff8ed;--soft:#f7f6f4;--line:#e9e5e1;--white:#fff;--radius:20px;--shadow:0 12px 35px rgba(34,20,12,.09)}
     *{box-sizing:border-box}
-    html,body{min-height:100%}
-    body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
-    body::before,body::after{content:"";position:fixed;border-radius:50%;filter:blur(1px);pointer-events:none}
-    body::before{width:260px;height:260px;top:-150px;right:-120px;background:rgba(242,29,11,.08)}
-    body::after{width:190px;height:190px;bottom:-120px;left:-90px;background:rgba(242,29,11,.06)}
-    main{min-height:100svh;display:grid;place-items:center;padding:32px 22px calc(32px + env(safe-area-inset-bottom))}
-    .brand{text-align:center;width:min(100%,420px)}
-    .logo{display:block;width:min(78vw,330px);height:auto;margin:0 auto 24px;filter:drop-shadow(0 18px 26px rgba(50,20,10,.08))}
-    .eyebrow{display:inline-flex;align-items:center;gap:8px;margin:0 0 12px;padding:7px 12px;border:1px solid rgba(242,29,11,.18);border-radius:999px;background:rgba(255,255,255,.62);color:var(--red);font-size:.72rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
-    .eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 0 4px rgba(242,29,11,.1)}
-    h1{margin:0;font-size:clamp(1.8rem,8vw,2.8rem);line-height:1.06;letter-spacing:-.045em}
-    p{max-width:330px;margin:13px auto 0;color:var(--muted);font-size:.96rem;line-height:1.6}
-    .rule{display:flex;align-items:center;justify-content:center;gap:9px;margin:26px auto 0;color:var(--red)}
-    .rule::before,.rule::after{content:"";width:34px;height:3px;border-radius:99px;background:currentColor}
-    .rule span{width:7px;height:7px;border-radius:50%;background:currentColor}
-    @media (min-width:700px){main{padding:48px}.logo{width:350px}.brand{width:480px}}
-    @media (prefers-reduced-motion:no-preference){.brand{animation:enter .55s ease-out both}@keyframes enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}}
+    html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+    body{margin:0;color:var(--ink);background:var(--white);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden}
+    body.menu-open{overflow:hidden}
+    img,svg{display:block;max-width:100%}
+    a{color:inherit;text-decoration:none}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    .container{width:min(100%,1220px);margin-inline:auto;padding-inline:18px}
+    .promo{height:34px;display:flex;align-items:center;overflow:hidden;background:var(--ink);color:#fff;font-size:.72rem;font-weight:700;white-space:nowrap}
+    .promo-track{display:flex;width:max-content;gap:30px;animation:ticker 24s linear infinite}
+    .promo-track span{display:inline-flex;align-items:center;gap:30px}
+    .promo-track span::after{content:"•";color:var(--red)}
+    @keyframes ticker{to{transform:translateX(-50%)}}
+    .header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.96);border-bottom:1px solid rgba(233,229,225,.8);backdrop-filter:blur(12px)}
+    .header-row{height:78px;display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:10px}
+    .icon-btn{width:42px;height:42px;display:grid;place-items:center;border:0;border-radius:50%;background:transparent;color:var(--ink)}
+    .icon-btn:hover{background:var(--soft)}
+    .icon-btn svg{width:24px;height:24px}
+    .brand{justify-self:center;height:68px;display:flex;align-items:center}
+    .brand img{width:118px;height:68px;object-fit:contain}
+    .header-actions{display:flex;align-items:center}
+    .cart{position:relative}
+    .cart-count{position:absolute;right:0;top:1px;display:grid;place-items:center;min-width:18px;height:18px;padding:0 4px;border-radius:99px;background:var(--red);color:#fff;font-size:.63rem;font-weight:800}
+    .desktop-nav{display:none}
+    .hero{position:relative;min-height:520px;display:flex;align-items:flex-end;overflow:hidden;background:#5d7952}
+    .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.02) 30%,rgba(0,0,0,.72) 100%)}
+    .hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:67% center}
+    .hero-content{position:relative;z-index:1;width:100%;padding:44px 20px;color:#fff;text-align:left}
+    .hero-kicker{display:inline-flex;margin-bottom:12px;padding:7px 11px;border-radius:999px;background:var(--red);font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+    .hero h1{max-width:580px;margin:0;font-size:clamp(2.25rem,11vw,5rem);line-height:.98;letter-spacing:-.055em}
+    .hero p{max-width:470px;margin:14px 0 22px;font-size:.97rem;line-height:1.55;color:rgba(255,255,255,.87)}
+    .cta{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:13px 24px;border:0;border-radius:999px;background:var(--red);color:#fff;font-weight:800;transition:.2s}
+    .cta:hover{background:var(--red-dark);transform:translateY(-1px)}
+    .cta-light{background:#fff;color:var(--ink)}
+    .section{padding-block:52px}
+    .section-soft{background:var(--soft)}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:22px}
+    .section-head h2{margin:0;font-size:clamp(1.65rem,7vw,2.55rem);line-height:1.05;letter-spacing:-.04em}
+    .section-head p{margin:7px 0 0;color:var(--muted);font-size:.88rem}
+    .see-all{flex:0 0 auto;color:var(--red);font-size:.82rem;font-weight:800}
+    .category-scroller,.products{display:grid;grid-auto-flow:column;grid-auto-columns:42%;gap:13px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:4px 18px 12px;margin-inline:-18px}
+    .category-scroller::-webkit-scrollbar,.products::-webkit-scrollbar{display:none}
+    .category{scroll-snap-align:start;text-align:center}
+    .category-visual{aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:#fff;box-shadow:var(--shadow);overflow:hidden}
+    .category:nth-child(even) .category-visual{background:var(--red)}
+    .category-visual strong{font-size:clamp(1rem,5vw,1.45rem);line-height:1}
+    .category-visual small{display:block;margin-bottom:3px;font-size:.62rem;text-transform:uppercase;letter-spacing:.08em}
+    .category > b{display:block;margin-top:10px;font-size:.78rem}
+    .products{grid-auto-columns:72%;gap:12px}
+    .product{position:relative;scroll-snap-align:start;display:flex;flex-direction:column;min-width:0;padding:10px;border:1px solid var(--line);border-radius:22px;background:#fff}
+    .product-media{position:relative;aspect-ratio:1;border-radius:16px;overflow:hidden;background:var(--cream)}
+    .product-media img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+    .product:hover .product-media img{transform:scale(1.025)}
+    .badge{position:absolute;top:10px;left:10px;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:var(--red);color:#fff;text-align:center;font-size:.68rem;font-weight:800;line-height:1.05}
+    .product-info{display:flex;flex:1;flex-direction:column;padding:13px 3px 2px}
+    .product-name{margin:0 0 8px;font-size:.93rem;font-weight:600;line-height:1.25}
+    .old-price{color:#99918b;font-size:.78rem;text-decoration:line-through}
+    .price{margin-top:2px;font-size:1.08rem;font-weight:900}
+    .price small{font-size:.76rem;font-weight:500}
+    .installments{margin:4px 0 13px;color:var(--muted);font-size:.76rem}
+    .buy{width:100%;min-height:46px;margin-top:auto;border:0;border-radius:999px;background:var(--red);color:#fff;font-weight:800}
+    .buy:hover{background:var(--red-dark)}
+    .trust-grid{display:grid;gap:12px}
+    .trust-card{padding:24px 22px;border-radius:20px;background:#fff}
+    .trust-icon{width:45px;height:45px;display:grid;place-items:center;margin-bottom:24px;border-radius:14px;background:#ffe9e5;color:var(--red)}
+    .trust-icon svg{width:24px;height:24px}
+    .trust-card h3{margin:0 0 5px;font-size:1rem}
+    .trust-card p{margin:0;color:var(--muted);font-size:.84rem;line-height:1.5}
+    .brand-story{margin-top:48px;padding:30px 24px;border-radius:26px;background:var(--ink);color:#fff;overflow:hidden}
+    .brand-story img{width:150px;margin:0 auto 20px;padding:8px;border-radius:22px;background:#fff;filter:drop-shadow(0 12px 20px rgba(0,0,0,.18))}
+    .brand-story h2{margin:0;font-size:2rem;letter-spacing:-.04em}
+    .brand-story p{margin:10px 0 20px;color:rgba(255,255,255,.7);line-height:1.6}
+    .newsletter{padding:52px 20px;text-align:center;background:var(--cream)}
+    .newsletter h2{max-width:600px;margin:0 auto;font-size:clamp(1.7rem,7vw,2.6rem);line-height:1.05;letter-spacing:-.04em}
+    .newsletter p{margin:10px auto 22px;color:var(--muted)}
+    .newsletter-form{display:flex;max-width:500px;margin:auto;padding:5px;border:1px solid var(--line);border-radius:999px;background:#fff;box-shadow:var(--shadow)}
+    .newsletter-form input{min-width:0;flex:1;border:0;background:transparent;padding:0 13px;outline:0}
+    .newsletter-form button{flex:0 0 auto;min-height:44px;border:0;border-radius:999px;background:var(--red);color:#fff;padding:0 17px;font-weight:800}
+    .footer{padding:42px 0 100px;background:#11100f;color:#fff}
+    .footer-logo{width:145px;height:auto;margin-bottom:22px;padding:7px;border-radius:18px;background:#fff}
+    .footer-grid{display:grid;gap:30px}
+    .footer h3{margin:0 0 12px;font-size:.9rem}
+    .footer p,.footer a{color:rgba(255,255,255,.65);font-size:.82rem;line-height:1.8}
+    .footer nav{display:grid;gap:2px}
+    .copyright{margin-top:30px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.4);font-size:.72rem}
+    .drawer{position:fixed;z-index:60;inset:0 auto 0 0;width:min(88vw,360px);padding:24px;background:#fff;transform:translateX(-105%);transition:.25s;box-shadow:20px 0 50px rgba(0,0,0,.18)}
+    .drawer.open{transform:none}
+    .drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px}
+    .drawer-head img{width:120px}
+    .drawer nav{display:grid}
+    .drawer nav a{padding:16px 2px;border-bottom:1px solid var(--line);font-weight:700}
+    .overlay{position:fixed;z-index:50;inset:0;background:rgba(0,0,0,.48);opacity:0;visibility:hidden;transition:.2s}
+    .overlay.show{opacity:1;visibility:visible}
+    .search-panel{position:fixed;z-index:70;top:0;left:0;right:0;padding:18px;background:#fff;transform:translateY(-110%);transition:.25s;box-shadow:0 14px 35px rgba(0,0,0,.13)}
+    .search-panel.open{transform:none}
+    .search-box{display:flex;align-items:center;gap:10px;max-width:800px;margin:auto}
+    .search-box input{min-width:0;flex:1;height:50px;border:1px solid var(--line);border-radius:999px;padding:0 18px;outline:0}
+    .cookie{position:fixed;z-index:40;left:14px;right:14px;bottom:14px;display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 12px 40px rgba(0,0,0,.14)}
+    .cookie p{flex:1;margin:0;color:var(--muted);font-size:.72rem;line-height:1.35}
+    .cookie button{flex:0 0 auto;border:0;border-radius:999px;background:var(--red);color:#fff;padding:11px 15px;font-size:.72rem;font-weight:800}
+    .cookie[hidden]{display:none}
+    @media (min-width:700px){.container{padding-inline:28px}.header-row{grid-template-columns:180px 1fr auto;height:94px}.menu-toggle{display:none}.brand{justify-self:start}.brand img{width:150px;height:84px}.desktop-nav{display:flex;justify-content:center;gap:34px;font-size:.9rem;font-weight:600}.hero{min-height:580px;margin-inline:auto;max-width:1440px}.hero-content{padding:70px max(5vw,58px)}.category-scroller{grid-auto-columns:160px;justify-content:center;overflow:visible;margin:0;padding-inline:0}.products{grid-auto-flow:initial;grid-auto-columns:auto;grid-template-columns:repeat(3,1fr);overflow:visible;margin:0;padding-inline:0}.trust-grid{grid-template-columns:repeat(4,1fr)}.brand-story{display:grid;grid-template-columns:220px 1fr;align-items:center;gap:30px;padding:36px 48px}.brand-story img{width:190px;margin:0}.footer{padding-bottom:42px}.footer-grid{grid-template-columns:1.4fr 1fr 1fr}.cookie{left:50%;right:auto;bottom:20px;width:min(900px,calc(100% - 40px));transform:translateX(-50%);padding:14px 22px}.cookie p{font-size:.78rem}}
+    @media (min-width:1050px){.products{grid-template-columns:repeat(4,1fr)}.hero h1{font-size:4.7rem}}
+    @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
   </style>
 </head>
 <body>
+  <div class="promo" aria-label="Condições especiais"><div class="promo-track"><span>Compra segura</span><span>Envio para todo o Brasil</span><span>Até 3x no cartão</span><span>Ofertas que surpreendem</span><span>Compra segura</span><span>Envio para todo o Brasil</span><span>Até 3x no cartão</span><span>Ofertas que surpreendem</span></div></div>
+
+  <header class="header">
+    <div class="container header-row">
+      <button class="icon-btn menu-toggle" type="button" aria-label="Abrir menu" aria-controls="menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <a class="brand" href="/" aria-label="Baratos da China - início"><img src="/brand-assets/baratos-da-china-logo.png" width="1254" height="1254" alt="Baratos da China"></a>
+      <nav class="desktop-nav" aria-label="Principal"><a href="#novidades">Novidades</a><a href="#mais-vendidos">Mais vendidos</a><a href="#categorias">Categorias</a><a href="#vantagens">Por que comprar</a></nav>
+      <div class="header-actions">
+        <button class="icon-btn search-toggle" type="button" aria-label="Buscar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></button>
+        <a class="icon-btn cart" href="/flytrap/#oferta" aria-label="Carrinho"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L20.5 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg><span class="cart-count">0</span></a>
+      </div>
+    </div>
+  </header>
+
   <main>
-    <section class="brand" aria-labelledby="coming-title">
-      <img class="logo" src="/brand-assets/baratos-da-china-logo.png" width="1254" height="1254" alt="Baratos da China">
-      <span class="eyebrow">Estamos preparando tudo</span>
-      <h1 id="coming-title">Uma nova loja está chegando.</h1>
-      <p>Produtos que surpreendem, preços que cabem no bolso e uma experiência feita primeiro para o seu celular.</p>
-      <div class="rule" aria-hidden="true"><span></span></div>
+    <section class="hero">
+      <img src="/flytrap/assets/hero-wide.webp" width="1600" height="1001" alt="Produto útil para deixar o quintal livre de moscas">
+      <div class="hero-content container">
+        <span class="hero-kicker">Achadinho da semana</span>
+        <h1>Soluções simples. Preços surpreendentes.</h1>
+        <p>Produtos úteis para facilitar sua rotina, escolhidos a dedo e entregues em todo o Brasil.</p>
+        <a class="cta cta-light" href="/flytrap/">Conhecer a Fly Trap</a>
+      </div>
     </section>
+
+    <section class="section" id="categorias">
+      <div class="container">
+        <div class="section-head"><div><h2>Compre do seu jeito</h2><p>Encontre rapidinho o que combina com você.</p></div></div>
+        <div class="category-scroller">
+          <a class="category" href="#novidades"><span class="category-visual"><strong><small>até</small>R$ 50</strong></span><b>Achadinhos</b></a>
+          <a class="category" href="#mais-vendidos"><span class="category-visual"><strong><small>até</small>R$ 100</strong></span><b>Mais procurados</b></a>
+          <a class="category" href="#mais-vendidos"><span class="category-visual"><strong>CASA</strong></span><b>Casa e lazer</b></a>
+          <a class="category" href="#novidades"><span class="category-visual"><strong>NOVO</strong></span><b>Novidades</b></a>
+          <a class="category" href="/flytrap/"><span class="category-visual"><strong>TOP</strong></span><b>Mais vendidos</b></a>
+          <a class="category" href="#vantagens"><span class="category-visual"><strong>OFERTA</strong></span><b>Promoções</b></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="novidades">
+      <div class="container">
+        <div class="section-head"><div><h2>Novidades que valem a pena</h2><p>Reposição limitada. Gostou? Não deixa para depois.</p></div><a class="see-all" href="/flytrap/">Ver produto →</a></div>
+        <div class="products">
+          <article class="product"><a class="product-media" href="/flytrap/"><img src="/flytrap/assets/product-square.webp" width="900" height="900" alt="Armadilha Fly Trap"><span class="badge">44%<br>OFF</span></a><div class="product-info"><h3 class="product-name">Fly Trap — Kit Essencial</h3><span class="old-price">R$ 89,90</span><div class="price">R$ 49,90 <small>no Pix</small></div><p class="installments">ou no cartão</p><a class="buy cta" href="/flytrap/#oferta">Comprar</a></div></article>
+          <article class="product"><a class="product-media" href="/flytrap/"><img src="/flytrap/assets/product-thumb.webp" width="480" height="480" alt="Kit Família Fly Trap"><span class="badge">28%<br>OFF</span></a><div class="product-info"><h3 class="product-name">Fly Trap — Kit Família</h3><span class="old-price">R$ 179,70</span><div class="price">R$ 129,90 <small>no Pix</small></div><p class="installments">ou 3x no cartão</p><a class="buy cta" href="/flytrap/#oferta">Comprar</a></div></article>
+          <article class="product"><a class="product-media" href="/flytrap/"><img src="/flytrap/assets/fly-trap-hero.png" width="1024" height="1024" alt="Kit Pro Fly Trap"><span class="badge">36%<br>OFF</span></a><div class="product-info"><h3 class="product-name">Fly Trap — Kit Pro</h3><span class="old-price">R$ 299,50</span><div class="price">R$ 189,90 <small>no Pix</small></div><p class="installments">ou 3x no cartão</p><a class="buy cta" href="/flytrap/#oferta">Comprar</a></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="vantagens">
+      <div class="container">
+        <div class="section-head"><div><h2>Compre sem medo</h2><p>Do clique até a entrega, você acompanha tudo.</p></div></div>
+        <div class="trust-grid">
+          <article class="trust-card"><span class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></span><h3>Curadoria de verdade</h3><p>Selecionamos produtos úteis que fazem sentido no seu dia a dia.</p></article>
+          <article class="trust-card"><span class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></span><h3>Entrega rastreada</h3><p>Seu pedido segue com código de rastreio e atualizações pelo caminho.</p></article>
+          <article class="trust-card"><span class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 4.5 6v5.5c0 4.5 3.1 8.2 7.5 9.5 4.4-1.3 7.5-5 7.5-9.5V6z"/><path d="m9 12 2 2 4-4"/></svg></span><h3>Pagamento seguro</h3><p>Pix e cartão em ambiente protegido e criptografado.</p></article>
+          <article class="trust-card"><span class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v12H7l-3 3z"/><path d="M8 9h8M8 12h5"/></svg></span><h3>Suporte humano</h3><p>Atendimento simples e direto quando você precisar.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="mais-vendidos">
+      <div class="container">
+        <div class="section-head"><div><h2>Os mais procurados</h2><p>Os favoritos de quem já descobriu a Baratos da China.</p></div><a class="see-all" href="/flytrap/">Ver detalhes →</a></div>
+        <div class="products">
+          <article class="product"><a class="product-media" href="/flytrap/"><img src="/flytrap/assets/hero-portrait.webp" width="900" height="1200" alt="Fly Trap em uso no quintal"><span class="badge">TOP<br>1</span></a><div class="product-info"><h3 class="product-name">Fly Trap — proteção para áreas externas</h3><span class="old-price">R$ 89,90</span><div class="price">a partir de R$ 49,90</div><p class="installments">Sem spray e sem tomada</p><a class="buy cta" href="/flytrap/">Ver produto</a></div></article>
+          <article class="product"><a class="product-media" href="/flytrap/"><img src="/flytrap/assets/product-square.webp" width="900" height="900" alt="Fly Trap para churrasqueira"><span class="badge">MAIS<br>VENDIDO</span></a><div class="product-info"><h3 class="product-name">Kit Família — 3 unidades</h3><span class="old-price">R$ 179,70</span><div class="price">R$ 129,90 <small>no Pix</small></div><p class="installments">Ideal para quintal e churrasqueira</p><a class="buy cta" href="/flytrap/#oferta">Comprar</a></div></article>
+          <article class="product"><a class="product-media" href="/flytrap/"><img src="/flytrap/assets/product-thumb.webp" width="480" height="480" alt="Kit Pro Fly Trap"><span class="badge">MELHOR<br>VALOR</span></a><div class="product-info"><h3 class="product-name">Kit Pro — 5 unidades</h3><span class="old-price">R$ 299,50</span><div class="price">R$ 189,90 <small>no Pix</small></div><p class="installments">Menor preço por unidade</p><a class="buy cta" href="/flytrap/#oferta">Comprar</a></div></article>
+        </div>
+
+        <div class="brand-story"><img src="/brand-assets/baratos-da-china-logo.png" width="1254" height="1254" alt=""><div><h2>Coisas boas não precisam custar caro.</h2><p>A Baratos da China nasceu para encontrar produtos úteis, curiosos e acessíveis — tudo em uma loja simples, segura e fácil de usar no celular.</p><a class="cta" href="#novidades">Ver novidades</a></div></div>
+      </div>
+    </section>
+
+    <section class="newsletter"><h2>Receba os próximos achadinhos primeiro</h2><p>Ofertas e novidades direto no seu e-mail, sem enrolação.</p><form class="newsletter-form" id="newsletter"><input type="email" required aria-label="Seu e-mail" placeholder="Seu melhor e-mail"><button type="submit">Eu quero</button></form></section>
   </main>
+
+  <footer class="footer"><div class="container"><div class="footer-grid"><div><img class="footer-logo" src="/brand-assets/baratos-da-china-logo.png" width="1254" height="1254" alt="Baratos da China"><p>Produtos úteis, preços que surpreendem e uma compra simples do início ao fim.</p></div><div><h3>Institucional</h3><nav><a href="/flytrap/termos.html">Termos de compra</a><a href="/flytrap/privacidade.html">Privacidade</a><a href="#vantagens">Como funciona</a></nav></div><div><h3>Atendimento</h3><nav><a href="mailto:atendimento@baratosdachina.shop">atendimento@baratosdachina.shop</a><a href="#novidades">Novidades</a><a href="#mais-vendidos">Mais vendidos</a></nav></div></div><div class="copyright">© 2026 Baratos da China. Todos os direitos reservados.</div></div></footer>
+
+  <aside class="drawer" id="menu" aria-hidden="true"><div class="drawer-head"><img src="/brand-assets/baratos-da-china-logo.png" width="1254" height="1254" alt="Baratos da China"><button class="icon-btn menu-close" type="button" aria-label="Fechar menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><nav><a href="#novidades">Novidades</a><a href="#mais-vendidos">Mais vendidos</a><a href="#categorias">Categorias</a><a href="#vantagens">Por que comprar</a><a href="/flytrap/">Fly Trap</a></nav></aside>
+  <div class="overlay"></div>
+  <div class="search-panel" aria-hidden="true"><div class="search-box"><input type="search" placeholder="O que você procura?" aria-label="Buscar produtos"><button class="icon-btn search-close" type="button" aria-label="Fechar busca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div></div>
+  <div class="cookie"><p>Usamos cookies para melhorar sua experiência. Ao continuar, você concorda com nossa política de privacidade.</p><button type="button">Continuar</button></div>
+
+  <script>
+    const body=document.body,drawer=document.querySelector('.drawer'),overlay=document.querySelector('.overlay'),search=document.querySelector('.search-panel');
+    function closeLayers(){drawer.classList.remove('open');search.classList.remove('open');overlay.classList.remove('show');body.classList.remove('menu-open');drawer.setAttribute('aria-hidden','true');search.setAttribute('aria-hidden','true')}
+    document.querySelector('.menu-toggle').addEventListener('click',()=>{drawer.classList.add('open');overlay.classList.add('show');body.classList.add('menu-open');drawer.setAttribute('aria-hidden','false')});
+    document.querySelector('.menu-close').addEventListener('click',closeLayers);overlay.addEventListener('click',closeLayers);drawer.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeLayers));
+    document.querySelector('.search-toggle').addEventListener('click',()=>{search.classList.add('open');overlay.classList.add('show');body.classList.add('menu-open');search.setAttribute('aria-hidden','false');search.querySelector('input').focus()});
+    document.querySelector('.search-close').addEventListener('click',closeLayers);
+    document.querySelector('.cookie button').addEventListener('click',e=>e.currentTarget.parentElement.hidden=true);
+    document.querySelector('#newsletter').addEventListener('submit',e=>{e.preventDefault();const b=e.currentTarget.querySelector('button');b.textContent='Cadastrado!';b.disabled=true});
+  </script>
 </body>
 </html>

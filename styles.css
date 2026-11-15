@@ -293,6 +293,13 @@ details p { padding: 0 0 16px; color: var(--ink-soft); font-size: 0.95rem; }
 
 /* ---------- Checkout ---------- */
 dialog {
+  --green-900: #171311;
+  --green-700: #d92312;
+  --green-600: #f12612;
+  --green-100: #ffe9e5;
+  --green-50: #fff7f4;
+  --yellow: #f12612;
+  --yellow-dark: #d92312;
   border: 0; border-radius: 28px; padding: 0; width: min(94vw, 680px);
   max-height: 94vh; overflow-y: auto; color: var(--ink); background: #fff;
   box-shadow: 0 30px 90px rgba(8, 34, 18, 0.28);
@@ -378,6 +385,7 @@ dialog h2 { font-size: 1.65rem; }
 .card-result .btn { margin-top: 22px; }
 .success-check { display: grid; place-items: center; width: 62px; height: 62px; margin: 0 auto; border-radius: 50%; color: #fff; background: var(--green-600); }
 .success-check svg { width: 30px; height: 30px; }
+#lead-dialog .btn-cta { color: #fff; box-shadow: 0 8px 22px rgba(241, 38, 18, 0.22); }
 
 @media (max-width: 480px) {
   dialog { width: 100vw; max-width: none; max-height: 96vh; margin: auto 0 0; border-radius: 26px 26px 0 0; }
